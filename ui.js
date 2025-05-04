@@ -1,18 +1,12 @@
-const apiKey = '65876fc2fe1da35d342d5a5cd1035823';
-const imageBaseUrl = 'https://image.tmdb.org/t/p/w500';
+import { imageBaseUrl, getMovies, getMovieDetails } from './api.js';
 
-async function searchMovies() {
+export async function searchMovies() {
     const query = document.getElementById('searchInput').value;
-
-    const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}`;
-    const res = await fetch(url);
-    const data = await res.json();
-
-    console.log(data.results);
-    displayMovies(data.results);
+    const movies = await getMovies(query);
+    displayMovies(movies);
 }
 
-function displayMovies(movies) {
+export function displayMovies(movies) {
     const movieList = document.getElementById('movieList');
     movieList.innerHTML = '';
     movies.forEach(movie => {
@@ -31,11 +25,8 @@ function displayMovies(movies) {
     });
 }
 
-async function showMovieDetails(movieId) {
-    const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`;
-    const res = await fetch(url);
-    const movie = await res.json();
-
+export async function showMovieDetails(movieId) {
+    const movie = await getMovieDetails(movieId);
     document.getElementById('modalDetails').innerHTML = `
         <h2>${movie.title}</h2>
         <p><strong>개봉일:</strong> ${movie.release_date}</p>
@@ -45,12 +36,6 @@ async function showMovieDetails(movieId) {
     document.getElementById('movieModal').style.display = 'flex';
 }
 
-function closeModal() {
+export function closeModal() {
     document.getElementById('movieModal').style.display = 'none';
 }
-
-document.getElementById('searchInput').addEventListener('keydown', function (event) {
-    if (event.key === 'Enter') {
-        searchMovies();
-    }
-});

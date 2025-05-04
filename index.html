@@ -15,7 +15,7 @@
     <h1>TMDB 영화 검색기</h1>
     <div class="search">
         <input type="text" id="searchInput" placeholder="영화 제목 입력">
-        <button onclick="searchMovies()">검색</button>
+        <button id="searchButton" onclick="searchMovies()">검색</button>
     </div>
     <div class="movies" id="movieList"></div>
 
@@ -25,7 +25,7 @@
             <div id="modalDetails"></div>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script type="module" src="main.js"></script>
 </body>
 
 </html>
